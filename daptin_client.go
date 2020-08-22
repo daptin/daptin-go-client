@@ -1,35 +1,40 @@
 package daptin_go_client
 
-type JsonApiObject struct {
-}
+import "github.com/go-resty/resty/v2"
 
-type DaptinQueryParameters struct {
-}
+type JsonApiObject map[string]interface{}
+type DaptinQueryParameters map[string]interface{}
 
 type DaptinActionResponse struct {
+	ResponseType string
+	Attributes   map[string]interface{}
 }
 
 type DaptinClient interface {
 	FindOne(tableName string, referenceId string) (JsonApiObject, error)
-	FindAll(...DaptinQueryParameters) ([]JsonApiObject, error)
-	Create(object JsonApiObject) (JsonApiObject, error)
-	Update(object JsonApiObject) error
+	FindAll(tableName string, parameters DaptinQueryParameters) ([]JsonApiObject, error)
+	Create(tableName string, attributes JsonApiObject) (JsonApiObject, error)
+	Update(tableName, referenceId string, object JsonApiObject) (JsonApiObject, error)
 	Delete(tableName string, referenceId string) error
-	Execute(actionName string, tableName string, parameters map[string]interface{}) (DaptinActionResponse, error)
-	Authorize(username string, password string) error
+	Execute(actionName string, tableName string, attributes JsonApiObject) ([]DaptinActionResponse, error)
+	SetDebug(bool)
 }
 
-func NewDaptinClient(endpoint string) DaptinClient {
+func NewDaptinClient(endpoint string, debug bool) DaptinClient {
 
 	return &daptinClientImpl{
-		endpoint: endpoint,
+		endpoint:    endpoint,
+		restyClient: resty.New(),
+		debug:       debug,
 	}
 }
 
-func NewDaptinClientWithAuthToken(endpoint string, authToken string) DaptinClient {
+func NewDaptinClientWithAuthToken(endpoint string, authToken string, debug bool) DaptinClient {
 
 	return &daptinClientImpl{
-		endpoint:  endpoint,
-		authToken: authToken,
+		restyClient: resty.New(),
+		endpoint:    endpoint,
+		authToken:   authToken,
+		debug:       debug,
 	}
 }
