@@ -1,5 +1,7 @@
-module github.com/daptin/daptin-go-client
+module daptin-go-client
 
-go 1.13
+go 1.22
 
-require github.com/go-resty/resty/v2 v2.3.0 // indirect
+require github.com/go-resty/resty/v2 v2.13.1
+
+require golang.org/x/net v0.25.0 // indirect

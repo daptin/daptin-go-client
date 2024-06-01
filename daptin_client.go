@@ -20,6 +20,14 @@ type DaptinClient interface {
 	SetDebug(bool)
 }
 
+type World struct {
+	Name string
+}
+
+type DaptinClientHelper interface {
+	GetAllWorld() []World
+}
+
 func NewDaptinClient(endpoint string, debug bool) DaptinClient {
 
 	return &daptinClientImpl{

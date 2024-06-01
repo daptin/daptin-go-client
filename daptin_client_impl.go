@@ -69,8 +69,20 @@ func (d daptinClientImpl) FindAll(tableName string, parameters DaptinQueryParame
 
 	err = json.Unmarshal(bodyBytes, &responseObject)
 
-	return responseObject["data"].([]JsonApiObject), err
+	return ToJsonApiObjectArray(responseObject["data"].([]interface{})), err
 
+}
+
+func ToJsonApiObjectArray(object []interface{}) []JsonApiObject {
+	out := make([]JsonApiObject, len(object))
+	for i, o := range object {
+		out[i] = ToJsonApiObject(o.(map[string]interface{}))
+	}
+	return out
+}
+
+func ToJsonApiObject(object map[string]interface{}) JsonApiObject {
+	return object
 }
 
 func (d daptinClientImpl) Create(tableName string, attributes JsonApiObject) (JsonApiObject, error) {
