@@ -47,7 +47,7 @@ func (d daptinClientImpl) FindOne(tableName string, referenceId string) (JsonApi
 
 	err = json.Unmarshal(bodyBytes, &responseObject)
 
-	return responseObject["data"].(JsonApiObject), err
+	return ToJsonApiObject(responseObject["data"].(map[string]interface{})), err
 
 }
 
@@ -104,7 +104,7 @@ func (d daptinClientImpl) Create(tableName string, attributes JsonApiObject) (Js
 
 	err = json.Unmarshal(bodyBytes, &responseObject)
 
-	return responseObject["data"].(JsonApiObject), err
+	return ToJsonApiObject(responseObject["data"].(map[string]interface{})), err
 
 }
 
@@ -126,7 +126,7 @@ func (d daptinClientImpl) Update(tableName, referenceId string, object JsonApiOb
 
 	err = json.Unmarshal(bodyBytes, &responseObject)
 
-	return responseObject["data"].(JsonApiObject), err
+	return ToJsonApiObject(responseObject["data"].(map[string]interface{})), err
 
 }
 

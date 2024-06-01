@@ -1,4 +1,4 @@
-module daptin-go-client
+module github.com/daptin/daptin-go-client
 
 go 1.22
 
