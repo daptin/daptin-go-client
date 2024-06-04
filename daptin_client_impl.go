@@ -56,7 +56,11 @@ func (d daptinClientImpl) FindAll(tableName string, parameters DaptinQueryParame
 
 	var responseObject JsonApiObject
 
-	response, err := request.Get(d.endpoint + "/api/" + tableName)
+	url := d.endpoint + "/api/" + tableName + "?"
+	for key, parameter := range parameters {
+		url = url + key + "=" + fmt.Sprintf("%s", parameter) + "&"
+	}
+	response, err := request.Get(url)
 
 	if d.debug {
 		d.LogTraceInfo(err, response)
