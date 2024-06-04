@@ -58,7 +58,7 @@ func (d daptinClientImpl) FindAll(tableName string, parameters DaptinQueryParame
 
 	url := d.endpoint + "/api/" + tableName + "?"
 	for key, parameter := range parameters {
-		url = url + key + "=" + fmt.Sprintf("%s", parameter) + "&"
+		url = url + key + "=" + fmt.Sprintf("%v", parameter) + "&"
 	}
 	response, err := request.Get(url)
 
