@@ -11,7 +11,7 @@ type DaptinActionResponse struct {
 }
 
 type DaptinClient interface {
-	FindOne(tableName string, referenceId string) (JsonApiObject, error)
+	FindOne(tableName string, referenceId string, parameters DaptinQueryParameters) (JsonApiObject, error)
 	FindAll(tableName string, parameters DaptinQueryParameters) ([]JsonApiObject, error)
 	Create(tableName string, attributes JsonApiObject) (JsonApiObject, error)
 	Update(tableName, referenceId string, object JsonApiObject) (JsonApiObject, error)

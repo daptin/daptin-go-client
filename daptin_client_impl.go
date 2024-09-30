@@ -29,12 +29,18 @@ func (d daptinClientImpl) nextRequest() *resty.Request {
 	return request
 }
 
-func (d daptinClientImpl) FindOne(tableName string, referenceId string) (JsonApiObject, error) {
+func (d daptinClientImpl) FindOne(tableName string, referenceId string, parameters DaptinQueryParameters) (JsonApiObject, error) {
 	request := d.nextRequest()
 
 	var responseObject JsonApiObject
 
-	response, err := request.Get(d.endpoint + "/api/" + tableName + "/" + referenceId)
+	url := d.endpoint + "/api/" + tableName + "/" + referenceId
+	if parameters != nil {
+		for key, value := range parameters {
+			url = url + key + "=" + fmt.Sprintf("%v", value) + "&"
+		}
+	}
+	response, err := request.Get(url)
 
 	if d.debug {
 		d.LogTraceInfo(err, response)
